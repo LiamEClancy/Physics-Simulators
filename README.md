@@ -1,2 +1,2 @@
-# Statistics-Dashboard
-A Node.js webserver that will allow players to access a dashboard with their Minecraft server statistics.
+# Physics simulators
+A series of physics simulations using JavaScript, Node.js, and Express servers.
