@@ -23,11 +23,7 @@ let cannonData = {
 	angle: 45,
 	velocity: 100,
 	verticalDisplacement: 500,
-	time: 0,
-	x: 0,
-	y: 0,
-	vfx: 0,
-	vfy: 0
+	horizontalDisplacement: 0
 };
 
 app.get('/cannon', (req, res) => {

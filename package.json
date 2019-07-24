@@ -23,5 +23,10 @@
   "dependencies": {
     "ejs": "^2.6.2",
     "express": "^4.17.1"
+	},
+	"standard": {
+		"globals": [
+			"$"
+		]
 	}
 }

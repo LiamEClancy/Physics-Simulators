@@ -12,28 +12,22 @@
   </head>
 
 	<body>
-		<p> <strong> Data: </strong>
-			<br> Launch angle:<%= angle %>
-			<br> Initial velocity: <%= velocity %>
-			<br> Vertical displacement of the cannon: <%= verticalDisplacement %>
-			<br>
-			<br> X-position at time <%= time %> is <%= x %>
-			<br> Velocity in the X-direction at time <%= time %> is <%= vfx %>
-			<br>
-			<br> Y-position at time <%= time %> is <%= y %>
-			<br> Velocity in the Y-direction at time <%= time %> is <%= vfy %>
-
-		</p>
+		<strong> Data: </strong>
+		<br> Launch Angle: <div id="launchAngleDisplay">0</div>
+		<br> Initial Launch Velocity: <div id="initialVelocityDisplay">0</div>
+		<br> Vertical Displacement: <div id="verticalDisplacementDisplay">0</div>
+		<br> Hortizontal Displacement: <div id="horizontalDisplacementDisplay">0</div>
+		<br>
+		<br> X-Position at time <div id="timeDisplay">0</div>: <div id="xPositionDisplay">0</div>
+		<br> X-Velocity at time <div id="timeDisplay">0</div>: <div id="xVelocityDisplay">0</div>
+		<br> Y-Position at time <div id="timeDisplay">0</div>: <div id="yPositionDisplay">0</div>
+		<br> Y-Velocity at time <div id="timeDisplay">0</div>: <div id="yVelocityDisplay">0</div>
 
 		<script>
-			window.a = <%= angle %>;
-			window.vo = <%= velocity %>;
+			window.theta = <%= angle %>;
+			window.velocityInitial = <%= velocity %>;
 			window.deltaY = <%= verticalDisplacement %>;
-			window.time = <%= time %>
-			window.x = <%= x %>
-			window.y = <%= y %>
-			window.vfx = <%= vfx %>
-			window.vfy = <%= vfy %>
+			window.deltaX = <%= horizontalDisplacement %>;
 		</script>
 		<script src="/js/jquery-3.4.1.min.js"></script>
     <script src="/js/cannonMath.js"></script>
