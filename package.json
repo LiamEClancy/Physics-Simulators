@@ -1,0 +1,31 @@
+{
+  "name": "statistics-dashboard",
+  "version": "1.0.0",
+  "description": "A webserver for players to interact with a dashboard that gathers their Minecraft data from a server.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LiamEClancy/Statistics-Dashboard.git"
+  },
+  "keywords": [
+    "dashboard",
+    "statistics",
+    "Minecraft"
+  ],
+  "author": "Liam Clancy",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/LiamEClancy/Statistics-Dashboard/issues"
+  },
+  "homepage": "https://github.com/LiamEClancy/Statistics-Dashboard#readme",
+  "dependencies": {
+    "ejs": "^2.6.2",
+    "express": "^4.17.1",
+    "ipsum": "^1.0.0",
+    "lorem": "^0.4.0",
+    "lorem-ipsum": "^2.0.3"
+  }
+}

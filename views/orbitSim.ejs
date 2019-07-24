@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Orbital Simulation</title>
+
+    <meta name="description" content="An orbital simulation">
+    <meta name="author" content="Liam Clancy">
+  </head>
+
+	<body>
+		<p> <strong> Data: </strong>
+			<br> Mass of the first body:<%= mass1 %>
+			<br> Mass of the second body: <%= mass2 %>
+			<br> Universal Gravitational Constant: <%= G %>
+			<br> Radius: <%= radius %> </p>
+
+		<script>
+			let m1 = <%= mass1 %>;
+			let m2 = <%= mass2 %>;
+			let G = <%= G %>;
+			let r = <%= radius %>;
+		</script>
+    <script src="/js/orbitMath.js"></script>
+  </body>
+</html>

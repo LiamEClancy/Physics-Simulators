@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Kinematics Simulation</title>
+
+    <meta name="description" content="A kinematics simulation">
+    <meta name="author" content="Liam Clancy">
+  </head>
+
+	<body>
+		<p> <strong> Data: </strong>
+			<br> Launch angle:<%= angle %>
+			<br> Initial velocity: <%= velocity %>
+			<br> Vertical displacement of the cannon: <%= verticalDisplacement %>
+			<br>
+			<br> X-position at time <%= time %> is <%= x %>
+			<br> Velocity in the X-direction at time <%= time %> is <%= vfx %>
+			<br>
+			<br> Y-position at time <%= time %> is <%= y %>
+			<br> Velocity in the Y-direction at time <%= time %> is <%= vfy %>
+
+		</p>
+
+		<script>
+			window.a = <%= angle %>;
+			window.vo = <%= velocity %>;
+			window.deltaY = <%= verticalDisplacement %>;
+			window.time = <%= time %>
+			window.x = <%= x %>
+			window.y = <%= y %>
+			window.vfx = <%= vfx %>
+			window.vfy = <%= vfy %>
+		</script>
+		<script src="/js/jquery-3.4.1.min.js"></script>
+    <script src="/js/cannonMath.js"></script>
+  </body>
+</html>
