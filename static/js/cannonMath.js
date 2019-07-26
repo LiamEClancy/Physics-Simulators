@@ -4,7 +4,7 @@ let velocityInitial = window.velocityInitial;
 let time = 0;
 let verticalDisplacement = window.deltaY;
 let horizontalDisplacement = window.deltaX;
-let gravity = -9.81;
+let gravity = -9.807;
 
 // Dynamically updating cannon display parameters.
 let angleDisplay = $('#launchAngleDisplay');
@@ -17,7 +17,7 @@ let initialVelocityDisplay = $('#initialVelocityDisplay');
 initialVelocityDisplay.html(velocityInitial);
 
 // Splitting initial velocity into its vector components.
-let arad = (theta * Math.PI) / 180;
+let arad = (theta * Math.PI) / 180.0;
 let velocityInitialX = velocityInitial * Math.cos(arad);
 let velocityInitialY = velocityInitial * Math.sin(arad);
 
@@ -26,32 +26,48 @@ let x;
 let velocityFinalX;
 let y;
 let velocityFinalY;
+let yMax = 0;
 
-setInterval(() => {
-	x = velocityInitialX * time + horizontalDisplacement;
+let cannonSimulation = setInterval(() => {
+	if (window.simulationPause) {
+		return;
+	}
+
+	x = (velocityInitialX * time) + horizontalDisplacement;
 	velocityFinalX = velocityInitialX;
 
 	// Calculating Y position and velocity.
-	let gravityEffect = (0.5 * gravity * (Math.pow(time, 2)));
-	y = gravityEffect + (velocityInitialY + time) + verticalDisplacement;
+	let gravityEffect = ((0.5 * gravity) * (Math.pow(time, 2)));
+	y = gravityEffect + (velocityInitialY * time) + verticalDisplacement;
 	velocityFinalY = velocityInitialY + (gravity * time);
 
-	// Logging.
-	console.log(time);
-	console.log(x);
-	console.log(y);
+	window.cannonballPositionX = x;
+	window.cannonballPositionY = y;
+	window.cannonballVelocityY = velocityFinalY;
 
 	let xPositionDisplay = $('#xPositionDisplay');
-	xPositionDisplay.html(x);
+	xPositionDisplay.html(x.toFixed(2));
 	let yPositionDisplay = $('#yPositionDisplay');
-	yPositionDisplay.html(y);
+	yPositionDisplay.html(y.toFixed(2));
 	let xVelocityDisplay = $('#xVelocityDisplay');
-	xVelocityDisplay.html(velocityFinalX);
+	xVelocityDisplay.html(velocityFinalX.toFixed(2));
 	let yVelocityDisplay = $('#yVelocityDisplay');
-	yVelocityDisplay.html(velocityFinalY);
-	let timeDisplay = $('#timeDisplay');
-	timeDisplay.html(time);
+	yVelocityDisplay.html(velocityFinalY.toFixed(2));
+	let timeDisplay = $('[id=timeDisplay]');
+	timeDisplay.html(time.toFixed(2));
+	let yMaxDisplay = $('#yMaxDisplay');
+	yMaxDisplay.html(yMax.toFixed(2));
 
 	// Incrementing time.
-	time += 1;
-}, 1000);
+	time += 0.05;
+
+	// Checking for maximum Y-position.
+	if (y > yMax) {
+		yMax = y;
+	}
+
+	// Checking if Y-position is negative or zero.
+	if (y <= 0) {
+		clearInterval(cannonSimulation);
+	}
+}, 50);

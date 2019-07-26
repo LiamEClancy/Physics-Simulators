@@ -22,14 +22,124 @@
 		<br> X-Velocity at time <div id="timeDisplay">0</div>: <div id="xVelocityDisplay">0</div>
 		<br> Y-Position at time <div id="timeDisplay">0</div>: <div id="yPositionDisplay">0</div>
 		<br> Y-Velocity at time <div id="timeDisplay">0</div>: <div id="yVelocityDisplay">0</div>
+		<br> Maximum of the cannon's arc: <div id="yMaxDisplay">0</div>
 
 		<script>
 			window.theta = <%= angle %>;
 			window.velocityInitial = <%= velocity %>;
 			window.deltaY = <%= verticalDisplacement %>;
 			window.deltaX = <%= horizontalDisplacement %>;
+			window.cannonballPositionX = 0;
+			window.cannonballPositionY = 0;
+			window.cannonballVelocityY = 0;
+			window.simulationPause = false;
 		</script>
 		<script src="/js/jquery-3.4.1.min.js"></script>
     <script src="/js/cannonMath.js"></script>
+		<script src="/js/three.min.js"></script>
+		<script src="/js/OrbitControls.js"></script>
+
+		<script>
+			let scene = new THREE.Scene();
+			let camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10000);
+
+			let renderer = new THREE.WebGLRenderer();
+			renderer.setSize(window.innerWidth, window.innerHeight);
+			document.body.appendChild(renderer.domElement);
+
+			window.addEventListener('resize', function() {
+				let width = window.innerWidth;
+				let height = window.innerHeight;
+				renderer.setSize(width, height);
+				camera.aspect = width / height;
+				camera.updateProjectionMatrix();
+			});
+
+			let controls = new THREE.OrbitControls(camera, renderer.domElement);
+
+			let plane = new THREE.PlaneGeometry(10000, 10000);
+
+			let groundMaterial = new THREE.MeshBasicMaterial({
+				color: 0xFFFFFF,
+				side: THREE.DoubleSide
+			});
+
+			let ground = new THREE.Mesh(plane, groundMaterial);
+			scene.add(ground);
+
+			ground.position.x = 0;
+			ground.position.y = 0;
+			ground.rotateX(90* Math.PI / 180);
+
+			let sphere = new THREE.SphereGeometry(5, 40, 40);
+
+			let cannonballMaterial = new THREE.MeshPhongMaterial({
+				map: new THREE.TextureLoader().load('/img/Textures/cannonballTexture.jpg'),
+				wireframe: false,
+				side: THREE.DoubleSide
+			});
+
+			let backgroundCube = new THREE.BoxGeometry(5000, 5000, 5000);
+			let backgroundMaterial = [
+				new THREE.MeshBasicMaterial({map: new THREE.TextureLoader().load('/img/Skybox/left.jpg'), side: THREE.DoubleSide}), // Left Side
+				new THREE.MeshBasicMaterial({map: new THREE.TextureLoader().load('/img/Skybox/right.jpg'), side: THREE.DoubleSide}), // Right Side
+				new THREE.MeshBasicMaterial({map: new THREE.TextureLoader().load('/img//Skybox/top.jpg'), side: THREE.DoubleSide}), // Top Side
+				new THREE.MeshBasicMaterial({map: new THREE.TextureLoader().load('/img//Skybox/down.jpg'), side: THREE.DoubleSide}), // Bottom Side
+				new THREE.MeshBasicMaterial({map: new THREE.TextureLoader().load('/img/Skybox/front.jpg'), side: THREE.DoubleSide}), // Front Side
+				new THREE.MeshBasicMaterial({map: new THREE.TextureLoader().load('/img/Skybox/back.jpg'), side: THREE.DoubleSide}) // Back Side
+			];
+
+			let ambientLight = new THREE.AmbientLight(0xFFFFFF, 1.0);
+			scene.add(ambientLight);
+
+			let background = new THREE.Mesh(backgroundCube, backgroundMaterial);
+			scene.add(background);
+
+			let cannonball = new THREE.Mesh(sphere, cannonballMaterial);
+			scene.add(cannonball);
+
+			document.addEventListener("keydown", onDocumentKeyDown, false);
+			function onDocumentKeyDown(event) {
+    		let keyCode = event.which;
+    		if (keyCode == 32) {
+        	window.simulationPause = !window.simulationPause;
+    		}
+			};
+
+			let update = function() {
+					cannonball.position.x = window.cannonballPositionX;
+					cannonball.position.y = window.cannonballPositionY;
+
+					cannonball.rotation.z -= Math.abs(window.cannonballVelocityY / 180) + 0.05;
+					if (cannonball.position.y <= 0) {
+							cannonball.rotation.z = 0;
+					}
+
+					controls.target = cannonball.position;
+					if (!window.simulationPause) {
+						controls.autoRotate = false;
+						camera.position.y = cannonball.position.y + 10;
+						camera.position.x = cannonball.position.x - 40;
+						camera.position.z = cannonball.position.z;
+						camera.lookAt(cannonball.position.x, cannonball.position.y, cannonball.position.z);
+					} else {
+						controls.autoRotate = true;
+						cannonball.rotation.z = 0;
+					}
+			};
+
+			let render = function () {
+				renderer.render(scene, camera);
+			};
+
+			let GameLoop = function() {
+				requestAnimationFrame(GameLoop);
+				update();
+				controls.update();
+				render();
+			};
+
+			GameLoop();
+		</script>
   </body>
 </html>
