@@ -57,18 +57,43 @@
 
 			let controls = new THREE.OrbitControls(camera, renderer.domElement);
 
-			let plane = new THREE.PlaneGeometry(10000, 10000);
+			let plane = new THREE.PlaneGeometry(10000, 10000, 100, 100);
 
-			let groundMaterial = new THREE.MeshBasicMaterial({
-				color: 0xFFFFFF,
+			function generateColor(height) {
+				var bottomColor = new THREE.Color(0x228822);
+				var topColor = new THREE.Color(0xffffff);
+				return bottomColor.lerp(topColor, (height / 100));
+			}
+
+			for (var xPlane = 0; xPlane < 100; xPlane++) {
+				for (var yPlane = 0; yPlane < 100; yPlane++) {
+					var vertex_idx = (xPlane * 100 + yPlane);
+					var vertex = plane.vertices[vertex_idx];
+					var height = (25 * Math.random());
+					vertex.z = height;
+					plane.verticesNeedUpdate = true;
+				}
+			}
+
+			var faces = plane.faces;
+			for (var face_idx = 0; face_idx < faces.length; face_idx++) {
+				var face = faces[face_idx];
+				var c0 = plane.vertices[face.a];
+				var c1 = plane.vertices[face.b];
+				var c2 = plane.vertices[face.c];
+				face.vertexColors = [generateColor(c0.z), generateColor(c1.z),
+					generateColor(c2.z)];
+			}
+
+			var groundMaterial = new THREE.MeshBasicMaterial({
+				vertexColors: THREE.VertexColors,
 				side: THREE.DoubleSide
 			});
 
 			let ground = new THREE.Mesh(plane, groundMaterial);
 			scene.add(ground);
 
-			ground.position.x = 0;
-			ground.position.y = 0;
+			ground.position = 0;
 			ground.rotateX(90* Math.PI / 180);
 
 			let sphere = new THREE.SphereGeometry(5, 40, 40);
