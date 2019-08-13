@@ -19,15 +19,8 @@ app.get('/orbit', (req, res) => {
 	res.render('orbitSim', orbitData);
 });
 
-let cannonData = {
-	angle: 45,
-	velocity: 100,
-	verticalDisplacement: 25,
-	horizontalDisplacement: 0
-};
-
 app.get('/cannon', (req, res) => {
-	res.render('cannonSim', cannonData);
+	res.render('cannonSim');
 });
 
 app.get('/threejs', (req, res) => {

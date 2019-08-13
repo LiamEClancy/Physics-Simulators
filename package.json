@@ -26,7 +26,8 @@
 	},
 	"standard": {
 		"globals": [
-			"$"
+			"$",
+			"THREE"
 		]
 	}
 }
